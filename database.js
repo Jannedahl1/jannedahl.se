@@ -1,40 +1,80 @@
+// Importing Firebase from CDN (make sure you are using the correct version)
+import firebase from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
+import "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
+
 // Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyCOq9E1qaHjQ-x2molz22sITMPdhR7dXks",
     authDomain: "jannedahl-55349.firebaseapp.com",
     projectId: "jannedahl-55349",
-    storageBucket: "jannedahl-55349.appspot.com",
+    storageBucket: "jannedahl-55349.firebasestorage.app",
     messagingSenderId: "711435268575",
     appId: "1:711435268575:web:fea31561a27057be2a946a"
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+const app = firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// Example: Fetch data from Firestore
-db.collection("articles").get().then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data());
-    });
-}).catch((error) => {
-    console.error("Error fetching articles: ", error);
-});
+// Fetch and display data from Firestore
+const fetchArticles = async () => {
+    const articlesRef = db.collection("articles"); // "articles" collection
+    const snapshot = await articlesRef.get();  // Get all documents in the collection
+    const articleList = document.getElementById("article-list"); // Where to display the articles
+    
+    // Clear any existing content
+    articleList.innerHTML = '';
 
-// Example: Add a new article to Firestore
-function addArticle() {
-    db.collection("articles").add({
-        title: "New Article",
-        description: "This is a new article description.",
-        price: 100,
-        contactMail: "example@example.com",
-        contactNo: "123456789"
-    }).then(() => {
-        console.log("Article added successfully!");
-    }).catch((error) => {
+    snapshot.forEach(doc => {
+        const articleData = doc.data();
+        const articleDiv = document.createElement("div");
+        articleDiv.classList.add("article");
+        articleDiv.innerHTML = `
+            <h3>${articleData.Title}</h3>
+            <p>${articleData.Description}</p>
+            <p><strong>Price:</strong> $${articleData.Price}</p>
+            <p><strong>Contact:</strong> ${articleData.ContactMail} | ${articleData.ContactNo}</p>
+        `;
+        articleList.appendChild(articleDiv);
+    });
+};
+
+// Add article to Firestore
+const addArticle = async (e) => {
+    e.preventDefault();
+    const title = document.getElementById("title").value;
+    const description = document.getElementById("description").value;
+    const price = parseInt(document.getElementById("price").value, 10);
+    const contactMail = document.getElementById("contactMail").value;
+    const contactNo = parseInt(document.getElementById("contactNo").value, 10);
+    const date = new Date();
+
+    try {
+        // Add article to Firestore
+        await db.collection("articles").add({
+            Title: title,
+            Description: description,
+            Price: price,
+            ContactMail: contactMail,
+            ContactNo: contactNo,
+            Date: date,
+        });
+
+        // Clear the form fields after submission
+        document.getElementById("addArticleForm").reset();
+
+        // Refresh the article list
+        fetchArticles();
+    } catch (error) {
         console.error("Error adding article: ", error);
-    });
-}
+    }
+};
 
-// Call addArticle to add a new entry
-// addArticle();  // Uncomment to run this function
+// Initialize article fetch on page load
+window.onload = () => {
+    fetchArticles();
+
+    // Add event listener for form submission
+    const form = document.getElementById("addArticleForm");
+    form.addEventListener("submit", addArticle);
+};
