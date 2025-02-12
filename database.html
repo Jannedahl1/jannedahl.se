@@ -3,49 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Database - Janne</title>
-    <link rel="stylesheet" href="styles.css">
-    <!-- Firebase CDN (Use this instead of import statements) -->
-    <!-- ✅ Use Firebase from the official CDN -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <title>Database Example</title>
 
-    <!-- ✅ Load your script AFTER Firebase is loaded -->
-    <script src="database.js" defer></script>
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
+        // Your Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyCOq9E1qaHjQ-x2molz22sITMPdhR7dXks",
+            authDomain: "jannedahl-55349.firebaseapp.com",
+            projectId: "jannedahl-55349",
+            storageBucket: "jannedahl-55349.appspot.com",
+            messagingSenderId: "711435268575",
+            appId: "1:711435268575:web:fea31561a27057be2a946a"
+        };
 
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Fetch data from Firestore
+        async function fetchArticles() {
+            const querySnapshot = await getDocs(collection(db, "articles"));
+            querySnapshot.forEach((doc) => {
+                console.log(doc.id, " => ", doc.data());
+            });
+        }
+
+        // Add a new article to Firestore
+        async function addArticle() {
+            try {
+                await addDoc(collection(db, "articles"), {
+                    title: "New Article",
+                    description: "This is a new article description.",
+                    price: 100,
+                    contactMail: "example@example.com",
+                    contactNo: "123456789"
+                });
+                console.log("Article added successfully!");
+            } catch (error) {
+                console.error("Error adding article: ", error);
+            }
+        }
+
+        // Call fetchArticles and addArticle functions when needed
+        fetchArticles();
+        // Uncomment below to add a new article
+        // addArticle();
+    </script>
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.html">Hem</a></li>
-                <li><a href="about.html">Om</a></li>
-                <li><a href="contact.html">Kontakt</a></li>
-                <li><a href="database.html">Database</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <section id="database">
-        <div class="database-content">
-            <h1>Lägg till en post</h1>
-            <form id="database-form">
-                <label for="name">Namn:</label>
-                <input type="text" id="name" name="name" required>
-
-                <label for="description">Beskrivning:</label>
-                <textarea id="description" name="description" required></textarea>
-
-                <button type="submit">Skicka</button>
-            </form>
-        </div>
-    </section>
-
-    <footer>
-        <p>&copy; 2025 Jannedahl.se</p>
-    </footer>
-
-    <script src="database.js"></script>
+    <h1>Welcome to the Database Page!</h1>
 </body>
 </html>
