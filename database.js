@@ -1,6 +1,6 @@
-// Importing Firebase from CDN (make sure you are using the correct version)
-import firebase from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
-import "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
+// Import the necessary Firebase modules
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
+import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -13,15 +13,15 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-// Fetch and display data from Firestore
+// Fetch articles from Firestore
 const fetchArticles = async () => {
-    const articlesRef = db.collection("articles"); // "articles" collection
-    const snapshot = await articlesRef.get();  // Get all documents in the collection
-    const articleList = document.getElementById("article-list"); // Where to display the articles
-    
+    const articlesRef = collection(db, "articles");
+    const snapshot = await getDocs(articlesRef);
+    const articleList = document.getElementById("article-list"); // Where to display articles
+
     // Clear any existing content
     articleList.innerHTML = '';
 
@@ -39,7 +39,7 @@ const fetchArticles = async () => {
     });
 };
 
-// Add article to Firestore
+// Add new article to Firestore
 const addArticle = async (e) => {
     e.preventDefault();
     const title = document.getElementById("title").value;
@@ -51,7 +51,7 @@ const addArticle = async (e) => {
 
     try {
         // Add article to Firestore
-        await db.collection("articles").add({
+        await addDoc(collection(db, "articles"), {
             Title: title,
             Description: description,
             Price: price,
@@ -60,21 +60,22 @@ const addArticle = async (e) => {
             Date: date,
         });
 
-        // Clear the form fields after submission
+        // Clear the form after submission
         document.getElementById("addArticleForm").reset();
 
-        // Refresh the article list
+        // Reload the articles to display updated data
         fetchArticles();
     } catch (error) {
         console.error("Error adding article: ", error);
     }
 };
 
-// Initialize article fetch on page load
+// Initialize page when it loads
 window.onload = () => {
     fetchArticles();
 
-    // Add event listener for form submission
     const form = document.getElementById("addArticleForm");
-    form.addEventListener("submit", addArticle);
+    if (form) {
+        form.addEventListener("submit", addArticle);
+    }
 };
