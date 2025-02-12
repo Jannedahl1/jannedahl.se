@@ -32,8 +32,8 @@ const fetchArticles = async () => {
         articleDiv.innerHTML = `
             <h3>${articleData.Title}</h3>
             <p>${articleData.Description}</p>
-            <p><strong>Price:</strong> $${articleData.Price}</p>
-            <p><strong>Contact:</strong> ${articleData.ContactMail} | ${articleData.ContactNo}</p>
+            <p><strong>Price:</strong> ${articleData.Price}kr</p>
+            <p><strong>Contact:</strong> ${articleData.ContactMail} | 0${articleData.ContactNo}</p>
         `;
         articleList.appendChild(articleDiv);
     });
