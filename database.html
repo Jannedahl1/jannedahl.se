@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database - Janne</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Hem</a></li>
+                <li><a href="about.html">Om</a></li>
+                <li><a href="contact.html">Kontakt</a></li>
+                <li><a href="database.html">Database</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="database">
+        <div class="database-content">
+            <h1>Lägg till en post</h1>
+            <form id="database-form">
+                <label for="name">Namn:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="description">Beskrivning:</label>
+                <textarea id="description" name="description" required></textarea>
+
+                <button type="submit">Skicka</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Jannedahl.se</p>
+    </footer>
+
+    <script src="database.js"></script>
+</body>
+</html>
