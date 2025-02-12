@@ -142,3 +142,29 @@ footer {
     text-align: center;
     font-size: 14px;
 }
+#listings {
+    margin: 2rem 0;
+}
+
+.listing {
+    background-color: #f9f9f9;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+}
+
+.listing h3 {
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.listing p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    color: #555;
+}
+
+.listing strong {
+    color: #333;
+}
