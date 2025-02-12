@@ -12,3 +12,10 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
     // Reset the form after submission
     document.getElementById('contactForm').reset();
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("addArticleForm");
+    if (form) {
+        form.addEventListener("submit", addArticle);
+    }
+});

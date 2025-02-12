@@ -1,4 +1,4 @@
-// Import the necessary Firebase modules
+// Import necessary Firebase modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
 import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
 
@@ -20,9 +20,9 @@ const db = getFirestore(app);
 const fetchArticles = async () => {
     const articlesRef = collection(db, "articles");
     const snapshot = await getDocs(articlesRef);
-    const articleList = document.getElementById("article-list"); // Where to display articles
+    const articleList = document.getElementById("article-list");
 
-    // Clear any existing content
+    // Clear the current article list
     articleList.innerHTML = '';
 
     snapshot.forEach(doc => {
@@ -39,9 +39,10 @@ const fetchArticles = async () => {
     });
 };
 
-// Add new article to Firestore
+// Add a new article to Firestore
 const addArticle = async (e) => {
     e.preventDefault();
+
     const title = document.getElementById("title").value;
     const description = document.getElementById("description").value;
     const price = parseInt(document.getElementById("price").value, 10);
@@ -60,17 +61,17 @@ const addArticle = async (e) => {
             Date: date,
         });
 
-        // Clear the form after submission
+        // Reset the form after submission
         document.getElementById("addArticleForm").reset();
 
-        // Reload the articles to display updated data
+        // Reload the articles to show the new one
         fetchArticles();
     } catch (error) {
         console.error("Error adding article: ", error);
     }
 };
 
-// Initialize page when it loads
+// Initialize the page by loading articles and setting up the form submission
 window.onload = () => {
     fetchArticles();
 
