@@ -2,17 +2,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
 import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
 
-// Firebase configuration
-const firebaseConfig = {
-    //apiKey: "AIzaSyCOq9E1qaHjQ-x2molz22sITMPdhR7dXks",
-    // New API key is stored in .env
-    apiKey: process.env.FIREBASE_API_KEY,
-    authDomain: "jannedahl-55349.firebaseapp.com",
-    projectId: "jannedahl-55349",
-    storageBucket: "jannedahl-55349.firebasestorage.app",
-    messagingSenderId: "711435268575",
-    appId: "1:711435268575:web:fea31561a27057be2a946a"
-};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
