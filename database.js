@@ -4,7 +4,8 @@ import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.c
 
 // Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyCOq9E1qaHjQ-x2molz22sITMPdhR7dXks",
+    //apiKey: "AIzaSyCOq9E1qaHjQ-x2molz22sITMPdhR7dXks",
+    apiKey: process.env.FIREBASE_API_KEY,
     authDomain: "jannedahl-55349.firebaseapp.com",
     projectId: "jannedahl-55349",
     storageBucket: "jannedahl-55349.firebasestorage.app",
